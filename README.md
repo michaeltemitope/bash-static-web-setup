@@ -1,60 +1,185 @@
-# 🚀 Automated Static Website Deployer
+![Bash](https://img.shields.io/badge/Bash-Scripting-green)
+![Linux](https://img.shields.io/badge/Linux-Ubuntu%20%7C%20RHEL-blue)
 
-![License](https://img.shields.io/badge/license-Apache%202.0-blue)
-![Platform](https://img.shields.io/badge/platform-Linux-lightgrey)
-![Bash](https://img.shields.io/badge/shell-bash-4EAA25)
+# Static Website Deployment Automation (Bash)
 
-## 📖 Overview
+A robust Bash automation script that deploys a static website to an Apache web server from a remote ZIP file.  
+This project demonstrates practical **Linux administration**, **Bash scripting**, and **DevOps automation** skills.
 
-This project is a resilient Bash automation tool designed to deploy static websites onto a Linux server. It abstracts the complexity of server configuration, dependency management, and file deployment into a single command.
+---
 
-The script is **OS-agnostic**, automatically detecting the underlying Linux distribution (Ubuntu/Debian or CentOS/RHEL) to use the appropriate package managers and service names.
+## 📌 Project Overview
 
-## 🏗 Architecture
+`deploy_static_website.sh` automates the process of deploying static web content on Linux servers in a safe and repeatable manner.
 
-![Deployment Architecture Diagram]($PWD/architecture.png)
+The script:
+- Validates user input
+- Installs required dependencies
+- Configures Apache HTTP Server
+- Deploys static web files
+- Applies secure permissions
+- Handles errors and cleanup automatically
 
-The automation workflow follows these steps:
-1.  **Environment Check:** Validates OS type and user permissions.
-2.  **Dependency Resolution:** Installs Apache, `wget`, `unzip`, and `curl` if missing.
-3.  **Input Validation:** Verifies the validity and reachability of the source ZIP URL.
-4.  **Deployment:** Downloads content, manages temporary storage, and deploys to `/var/www/html`.
-5.  **Security & Cleanup:** Sets correct file ownership/permissions and performs garbage collection on exit.
+This project focuses on **defensive scripting and automation fundamentals**, rather than full production platform management.
 
-## ✨ Key Features
+---
 
-* **🛡 Strict Error Handling:** Uses `set -euo pipefail` to ensure the script fails fast and safely upon encountering any error, preventing partial (broken) deployments.
-* **🐧 Multi-OS Support:** Logic to handle package management differences between `apt` (Debian/Ubuntu) and `yum` (RHEL/CentOS).
-* **🧹 Automatic Cleanup:** Implements `trap` functions to ensure temporary files are removed whether the script succeeds or crashes.
-* **🔒 Security Compliance:** Enforces correct ownership (`www-data` or `apache`) and permissions (`755`) on web root files.
-* **⚡ Idempotency:** Checks for existing packages and services before attempting installation to save time and resources.
+## 🧠 What This Project Demonstrates
 
-## ⚙️ Prerequisites
+- Defensive Bash scripting (`set -euo pipefail`)
+- Linux OS detection and compatibility handling
+- Automated dependency installation
+- Apache HTTP Server setup and service management
+- File ownership and permission management
+- Input validation and structured error handling
+- Practical infrastructure automation concepts
 
-* A Linux environment (Ubuntu, Debian, CentOS, or RHEL).
-* `sudo` privileges (required to install packages and modify `/var/www/html`).
-* Internet access for downloading packages and the source ZIP file.
+---
+
+## ⚙️ Features
+
+- ✔ ZIP URL validation and accessibility check  
+- ✔ Supports Debian/Ubuntu and RHEL-based systems  
+- ✔ Automatic dependency installation  
+- ✔ Apache installation and startup  
+- ✔ Static website deployment to `/var/www/html`  
+- ✔ Secure permissions and ownership configuration  
+- ✔ Automatic cleanup using traps  
+- ✔ Clear and actionable error messages  
+
+---
+
+## 🏗️ Architecture Flow
+
+![Deployment Architecture Diagram](architecture.png)
+
+1. User provides a ZIP file URL  
+2. Script validates URL format and availability  
+3. OS type and package manager are detected  
+4. Required packages are installed if missing  
+5. Apache HTTP Server is installed and started  
+6. Website files are downloaded and extracted  
+7. Files are deployed to Apache web root  
+8. Permissions and ownership are applied  
+9. Cleanup runs automatically  
+
+---
+
+## 📦 Requirements
+
+- Linux system (Debian/Ubuntu or RHEL-based)
+- Bash 4+
+- `sudo` privileges
+- Internet connectivity
+
+---
+
+## 🧰 Dependencies (Auto-installed)
+
+- `curl`
+- `wget`
+- `unzip`
+- `apache2` / `httpd`
+
+---
 
 ## 🚀 Usage
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/michaeltemitope/bash-static-web-setup.git
-cd bash-static-web-setup/
-
-### 2. Make the Script Executable
+### Make the script executable
 
 chmod +x deploy_static_website.sh
 
-### 3. Run the Deployment
+Run the script
+./deploy_static_website.sh <zip_file_url>
 
-Pass the URL of your static website's ZIP file as an argument:
+Example
+./deploy_static_website.sh https://example.com/website.zip
 
-sudo ./deploy_static_website.sh [https://www.free-css.com/assets/files/free-css-templates/download/page254/photogenic.zip](https://www.free-css.com/assets/files/free-css-templates/download/page254/photogenic.zip)
 
-Note: The URL must start with http:// or https:// and end with .zip
+After successful execution, the website is available via the server’s IP address or domain.
 
-🧪 Testing
-To verify the deployment, open your browser and navigate to your server's IP address or localhost:
+---
 
-http://localhost/
+## 📁 Deployment Directory
+/var/www/html
+
+---
+
+## 🛡️ Error Handling & Safety
+
+This script is written with safety and reliability in mind:
+
+Immediate exit on failure
+
+Input validation for external resources
+
+Controlled privilege usage
+
+Automatic cleanup on exit or interruption
+
+Clear error output for troubleshooting
+
+---
+
+## 🧹 Cleanup Strategy
+
+Temporary files and downloads are removed automatically using a trap, ensuring no leftover artifacts remain.
+
+---
+
+## 🐧 Supported Platforms
+OS Family       	        Package Manager     Apache Service
+Debian/Ubuntu	            apt-get	            apache2
+RHEL/CentOS/Amazon Linux	dnf/yum	            httpd
+
+---
+
+## 🔐 Security Considerations
+
+Correct Apache user ownership (www-data / apache)
+
+Secure permissions applied recursively
+
+No embedded secrets or credentials
+
+Minimal required privileges
+
+---
+
+## 🧪 Tested Environments
+
+Ubuntu 20.04 / 22.04
+
+Amazon Linux 2
+
+CentOS 7 / 8
+
+---
+
+##  📈 Possible Improvements
+
+Add dry-run mode (--dry-run)
+
+Add logging to a file
+
+Add rollback on failed deployment
+
+Add HTTPS support
+
+Add health checks
+
+Add versioned deployments
+
+---
+
+## 📄 License
+
+Apache License 2.0
+
+---
+
+## 👨‍💻 Author
+
+Temitope Michael
+DevOps / Cloud Engineer
+Focused on automation, cloud infrastructure, and reliable systems.

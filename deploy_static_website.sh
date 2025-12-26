@@ -88,12 +88,20 @@ setup_apache() {
 
 # Function to deploy files
 deploy_files() {
-    local temp_dir="$1"
+    local deploy_temp_dir="$1"
     local extracted_dir
     
-    extracted_dir="$(find "$temp_dir" -mindepth 1 -maxdepth 1 -type d | head -n 1)"
-    local source_dir="${extracted_dir:+${extracted_dir}/}${extracted_dir:-.}"
-    sudo cp -r "${source_dir}"* "$APACHE_ROOT/" || handle_error "Failed to copy files to Apache root directory"
+    # Check if there's a subdirectory in the extracted content
+    extracted_dir="$(find "$deploy_temp_dir" -mindepth 1 -maxdepth 1 -type d | head -n 1)"
+    
+    # If a subdirectory exists, use it as the source; otherwise use the temp directory itself
+    if [[ -n "$extracted_dir" ]]; then
+        local source_dir="$extracted_dir"
+    else
+        local source_dir="$deploy_temp_dir"
+    fi
+    
+    sudo cp -r "$source_dir"/* "$APACHE_ROOT/" || handle_error "Failed to copy files to Apache root directory"
 
     sudo chown -R "$APACHE_USER:$APACHE_GROUP" "$APACHE_ROOT/" || handle_error "Failed to set ownership of web files"
     sudo chmod -R 755 "$APACHE_ROOT/" || handle_error "Failed to set permissions on web files"
@@ -114,9 +122,13 @@ validate_url "$zip_url"
 # Detect Linux distribution and set package manager and Apache variables
 declare PKG_MANAGER APACHE_PKG APACHE_SERVICE APACHE_USER APACHE_GROUP
 
-if [[ -f /etc/redhat-release ]]; then
-    # RedHat/CentOS
-    PKG_MANAGER="yum"
+if [[ -f /etc/redhat-release ]] || [[ -f /etc/system-release ]]; then
+    # RedHat/CentOS/Amazon Linux - prefer dnf if available, fallback to yum
+    if command -v dnf &> /dev/null; then
+        PKG_MANAGER="dnf"
+    else
+        PKG_MANAGER="yum"
+    fi
     APACHE_PKG="httpd"
     APACHE_SERVICE="httpd"
     APACHE_USER="apache"
