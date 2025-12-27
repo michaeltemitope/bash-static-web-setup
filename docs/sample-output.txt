@@ -1,0 +1,37 @@
+./deploy_static_website.sh https://www.tooplate.com/zip-templates/2148_bistro_elegance.zip
+
+Detecting operating system...
+RHEL-based system detected.
+Using package manager: dnf
+
+Checking required packages...
+curl already installed.
+wget already installed.
+unzip not found. Installing unzip...
+
+Installing Apache HTTP Server...
+Apache installed successfully.
+
+Configuring Apache service...
+Apache service started and enabled.
+
+Downloading zip file from:
+https://www.tooplate.com/zip-templates/2148_bistro_elegance.zip
+Download completed successfully.
+
+Extracting zip file...
+Files extracted to temporary directory.
+
+Copying files to Apache root directory...
+Files deployed to /var/www/html
+
+Applying ownership and permissions...
+Ownership set to apache:apache
+Permissions set to 755
+
+Performing cleanup...
+Temporary files removed.
+
+Deployment completed successfully.
+Website is now accessible via the server IP or domain.
+

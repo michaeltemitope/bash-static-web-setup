@@ -6,6 +6,8 @@
 A robust Bash automation script that deploys a static website to an Apache web server from a remote ZIP file.  
 This project demonstrates practical **Linux administration**, **Bash scripting**, and **DevOps automation** skills.
 
+This project is intended for learning, demonstration, and portfolio purposes, showcasing Bash automation and Linux server fundamentals.
+
 ---
 
 ## 📌 Project Overview
@@ -85,98 +87,117 @@ This project focuses on **defensive scripting and automation fundamentals**, rat
 
 ## 🚀 Usage
 
+### Clone and move to the repository directory
+
+```bash
+git clone https://github.com/michaeltemitope/bash-static-web-setup.git 
+cd bash-static-web-setup
+```
 ### Make the script executable
 
+```bash
 chmod +x deploy_static_website.sh
+```
 
-Run the script
+### Run the script
+
+```bash
 ./deploy_static_website.sh <zip_file_url>
+```
+### Example
 
-Example
-./deploy_static_website.sh https://example.com/website.zip
-
-
+```bash
+./deploy_static_website.sh https://www.tooplate.com/zip-templates/2148_bistro_elegance.zip
+```
 After successful execution, the website is available via the server’s IP address or domain.
 
----
+### Sample Execution Output
+
+A full sample execution output from a successful deployment on a RHEL-based system is available here:
+
+📄 [`docs/sample-output.txt`](docs/sample-output.txt)
 
 ## 📁 Deployment Directory
-/var/www/html
 
----
+```text
+/var/www/html
+```
 
 ## 🛡️ Error Handling & Safety
 
 This script is written with safety and reliability in mind:
 
-Immediate exit on failure
+- Immediate exit on failure
 
-Input validation for external resources
+- Input validation for external resources
 
-Controlled privilege usage
+- Controlled privilege usage
 
-Automatic cleanup on exit or interruption
+- Automatic cleanup on exit or interruption
 
-Clear error output for troubleshooting
-
----
+- Clear error output for troubleshooting
 
 ## 🧹 Cleanup Strategy
 
-Temporary files and downloads are removed automatically using a trap, ensuring no leftover artifacts remain.
+- Temporary files and downloads are removed automatically
 
----
+- Cleanup is enforced using trap to handle interruptions and failures
 
 ## 🐧 Supported Platforms
-OS Family       	        Package Manager     Apache Service
-Debian/Ubuntu	            apt-get	            apache2
-RHEL/CentOS/Amazon Linux	dnf/yum	            httpd
 
----
+| OS Family                    | Package Manager | Apache Service |
+| ---------------------------- | --------------- | -------------- |
+| Debian / Ubuntu              | apt-get         | apache2        |
+| RHEL / CentOS / Amazon Linux | dnf / yum       | httpd          |
 
 ## 🔐 Security Considerations
 
-Correct Apache user ownership (www-data / apache)
+- Correct Apache user ownership (www-data / apache)
 
-Secure permissions applied recursively
+- Secure permissions applied recursively
 
-No embedded secrets or credentials
+- No embedded secrets or credentials
 
-Minimal required privileges
-
----
+- Minimal required privileges
 
 ## 🧪 Tested Environments
 
-Ubuntu 20.04 / 22.04
+- Ubuntu 20.04 / 22.04
 
-Amazon Linux 2
+- Amazon Linux 2
 
-CentOS 7 / 8
+- CentOS 7 / 8
 
----
+## 🎥 Demo
 
-##  📈 Possible Improvements
+A short demo video showing:
 
-Add dry-run mode (--dry-run)
+- Script execution on an EC2 instance
 
-Add logging to a file
+- Successful static website deployment
 
-Add rollback on failed deployment
+- Website accessibility via browser
 
-Add HTTPS support
+▶️ See: docs/demo.mp4
+(Recorded on an AWS EC2 instance using a public static website template)
 
-Add health checks
+## 📈 Possible Improvements
 
-Add versioned deployments
+- Add dry-run mode (--dry-run)
 
----
+- Add logging to a file
+
+- Add rollback on failed deployment
+
+- Add HTTPS support
+
+- Add health checks
+
+- Add versioned deployments
 
 ## 📄 License
 
 Apache License 2.0
-
----
 
 ## 👨‍💻 Author
 
